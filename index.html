@@ -1,0 +1,167 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+  <!-- Add your site or application content here -->
+  <div id="topBar">Lasoń Peter</div>
+  <div id="mainContainer">
+    <div id="navigation" >
+      <h1 class="hackingAnim" data-value="DEVELOPMENT">DEVELOPMENT</h1>
+      <h1 class="hackingAnim" data-value="PROJECTS">PROJECTS</h1>
+      <h1 class="hackingAnim" data-value="PHOTOS">PHOTOS</h1>
+
+      <h2 class="contactInfo" data-value="CONTACT">CONTACT </h2>
+    </div>
+    <div id="image">
+    </div>
+  </div>
+
+  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function preload_image(im_url) {
+      let img = new Image();
+      img.src = im_url;
+    }
+
+    /*preload_image("photos.jpg");
+    preload_image("development.jpg");
+    preload_image("projects.jpg");*/
+    document.querySelectorAll(".contactInfo").forEach(element => {
+      element.onmouseover = contactEvent =>{
+        let text = contactEvent.target.dataset.value;
+        const charArray = "abcdefghijklmnopqrstuvwxyz!@#$%&*1234567890";
+        let rep = -2;
+        let interval = setInterval(() => {
+          contactEvent.target.innerText = contactEvent.target.innerText.split('').map((letter, index) => {
+            if (index <= rep) {
+              return text[index];
+            } else {
+              return charArray[Math.floor(Math.random() * 43)]
+            }
+          }).join('');
+          rep++;
+          if (rep >= text.length) {
+            clearInterval(interval);
+          }
+          //event.target.style.backgroundColor = "black";
+          //event.target.innerText = Math.random()*10;
+        }, 60);
+      }
+    });
+    document.querySelectorAll(".hackingAnim").forEach(element => {
+      element.onmouseover = event =>
+      {
+        let backgroundImage = document.getElementById("image");
+        console.log(event.target.dataset.value.toLowerCase()+".jpg");
+        backgroundImage.style.backgroundImage = "url('/" + event.target.dataset.value.toLowerCase()+ ".jpg')";
+        backgroundImage.style.backgroundRepeat = "no-repeat";
+        backgroundImage.style.boxShadow = "10px 10px 20px #222222 inset"
+        backgroundImage.style.opacity = 0; // Initial opacity set to 0
+
+        const targetOpacity = 1; // Target opacity (fully visible)
+        const opacityDuration = 1000; // Duration of the opacity animation in milliseconds
+
+        let zoomVal = 100.0;
+        const targetZoom = 115;
+        const zoomDuration = 2000; // Duration of the zoom animation in milliseconds
+
+        let startTime;
+
+        function easeOut(t, b, c, d) {
+          t /= d;
+          return -c * t * (t - 2) + b;
+        }
+
+        function animate(timestamp) {
+          if (!startTime) {
+            startTime = timestamp;
+          }
+
+          const progress = timestamp - startTime;
+
+          // Opacity animation
+          if (progress < opacityDuration) {
+            const easedOpacity = easeOut(progress, 0, targetOpacity, opacityDuration);
+            backgroundImage.style.opacity = easedOpacity;
+          } else {
+            backgroundImage.style.opacity = targetOpacity;
+          }
+
+          // Zoom animation
+          if (progress < zoomDuration) {
+            const easedZoom = easeOut(progress, 100, targetZoom - 100, zoomDuration);
+            backgroundImage.style.backgroundSize = easedZoom + "%";
+          } else {
+            backgroundImage.style.backgroundSize = targetZoom + "%";
+          }
+
+          // Continue the animation until both durations are complete
+          if (progress < Math.max(opacityDuration, zoomDuration)) {
+            requestAnimationFrame(animate);
+          }
+        }
+
+// Start the animation
+        requestAnimationFrame(animate);
+
+
+
+        let text = event.target.dataset.value;
+        const charArray = "abcdefghijklmnopqrstuvwxyz!@#1234567890";
+        let rep = -2;
+        let interval = setInterval(() => {
+          event.target.innerText = event.target.innerText.split('').map((letter, index) => {
+            if (index <= rep) {
+              return text[index];
+            } else {
+              return charArray[Math.floor(Math.random() * 39)]
+            }
+          }).join('');
+          rep++;
+          if (rep >= text.length) {
+            clearInterval(interval);
+          }
+          //event.target.style.backgroundColor = "black";
+          //event.target.innerText = Math.random()*10;
+        }, 40);
+
+      }
+      /*element.onmouseout = outEvent =>{
+        outEvent.target.style.backgroundColor = "#222222"
+      }*/
+    });
+  </script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>
